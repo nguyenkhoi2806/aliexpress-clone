@@ -1,6 +1,4 @@
 export default defineNuxtConfig({
-  compatibilityDate: '2024-04-03',
-  devtools: { enabled: true },
   pages: true,
   modules: [
     'nuxt-icon',
@@ -8,7 +6,7 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@pinia-plugin-persistedstate/nuxt',
     '@nuxtjs/tailwindcss',
-    //'@nuxtjs/supabase',
+    // '@nuxtjs/supabase'
   ],
   runtimeConfig: {
     public: {

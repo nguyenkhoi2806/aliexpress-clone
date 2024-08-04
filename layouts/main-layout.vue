@@ -148,9 +148,18 @@
             </div>
           </button>
         </NuxtLink>
+        <button
+          class="md:hidden block rounded-full p-1.5 -mt-[4px] hover:bg-gray-200"
+        >
+          <Icon name="radix-icons:hamburger-menu" size="33" />
+        </button>
       </div>
     </div>
   </div>
+  <Loading />
+  <div class="lg:pt-[150px] md:pt-[130px] pt-[80px]" />
+  <slot />
+  <Footer />
 </template>
 
 <script setup>

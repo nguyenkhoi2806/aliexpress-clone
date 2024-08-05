@@ -3,11 +3,11 @@
         <div id="ItemPage" class="mt-4 max-w-[1200px] mx-auto px-2">
             <div class="md:flex gap-4 justify-between mx-auto w-full">
                 <div class="md:w-[40%] flex flex-col gap-2">
-                    <img class="rounded-lg object-fit" src="https://picsum.photos/id/77/400/300" />
+                    <img class="rounded-lg object-fit" v-if="currentImage" :src="currentImage" />
                     <div v-if="images[0] !== ''" class="flex items-center justify-center gap-3">
                         <div v-for="image in images" :key="image">
                             <img @mouseover="currentImage = image" @click="currentImage = image" width="70"
-                                class="rounded-md object-fit border-[3px] cursor-pointer"
+                                class="rounded-md object-fit border-[3px] cursor-pointer h-[70px]"
                                 :class="currentImage === image ? 'border-[#FF5353]' : ''" :src="image" />
                         </div>
                     </div>
@@ -29,19 +29,20 @@
 
 <script setup>
 import MainLayout from '~/layouts/main-layout.vue';
-
-onMounted(() => {
-    watchEffect(() => {
-        images.value[0] = 'https://picsum.photos/id/77/200/300'
-    });
-})
-
+let currentImage = ref(null)
 const images = ref([
-    '',
     'https://picsum.photos/id/77/200/300',
     'https://picsum.photos/id/78/200/300',
     'https://picsum.photos/id/79/200/300',
     'https://picsum.photos/id/80/200/300',
     'https://picsum.photos/id/81/200/300',
 ])
+
+onMounted(() => {
+    watchEffect(() => {
+        currentImage.value = 'https://picsum.photos/id/77/200/300'
+        images[0] = 'https://picsum.photos/id/77/200/300'
+    });
+})
+
 </script>

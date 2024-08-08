@@ -13,7 +13,39 @@
                 <Icon name="mdi:plus" size="18" class="mr-2" />
                 Update Address
               </NuxtLink>
+              <div class="pt-2 border-t">
+                <div class="underline pb-1">Delivery Address</div>
+                <ul class="text-xs">
+                  <li class="flex items-center gap-2">
+                    <div>Contact name:</div>
+                    <div class="font-bold"></div>
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <div>Address:</div>
+                    <div class="font-bold"></div>
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <div>Zip Code:</div>
+                    <div class="font-bold"></div>
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <div>City:</div>
+                    <div class="font-bold"></div>
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <div>Country:</div>
+                    <div class="font-bold"></div>
+                  </li>
+                </ul>
+              </div>
             </div>
+            <NuxtLink
+              to="/address"
+              class="flex items-center text-blue-500 hover:text-red-400"
+            >
+              <Icon name="mdi:plus" size="18" class="mr-2" />
+              Add New Address
+            </NuxtLink>
           </div>
         </div>
       </div>
@@ -53,44 +85,7 @@ watch(
   }
 );
 
-const stripeInit = async () => {
-  const runtimeConfig = useRuntimeConfig();
-  stripe = Stripe(runtimeConfig.stripePk);
-
-  let res = await $fetch('/api/stripe/paymentintent', {
-    method: 'POST',
-    body: {
-      amount: total.value,
-    },
-  });
-  clientSecret = res.client_secret;
-
-  elements = stripe.elements();
-  const style = {
-    base: {
-      fontSize: '18px',
-    },
-    invalid: {
-      fontFamily: 'Arial, sans-serif',
-      color: '#EE4B2B',
-      iconColor: '#EE4B2B',
-    },
-  };
-  card = elements.create('card', {
-    hidePostalCode: true,
-    style: style,
-  });
-
-  card.mount('#card-element');
-  card.on('change', function (event) {
-    document.querySelector('button').disabled = event.empty;
-    document.querySelector('#card-error').textContent = event.error
-      ? event.error.message
-      : '';
-  });
-
-  isProcessing.value = false;
-};
+const stripeInit = async () => {};
 
 const pay = async () => {};
 

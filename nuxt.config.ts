@@ -1,5 +1,6 @@
 export default defineNuxtConfig({
   pages: true,
+
   modules: [
     'nuxt-icon',
     'nuxt-lodash',
@@ -8,11 +9,13 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     // '@nuxtjs/supabase'
   ],
+
   runtimeConfig: {
     public: {
       stripePk: process.env.STRIPE_PK
     }
   },
+
   app: {
     head: {
       script: [
@@ -20,4 +23,6 @@ export default defineNuxtConfig({
       ]
     },
   },
+
+  compatibilityDate: '2024-08-08',
 })

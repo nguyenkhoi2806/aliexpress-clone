@@ -28,6 +28,7 @@
 </template>
 
 <script setup>
+const client = use;
 // watchEffect(() => {
 //   if (user.value) {
 //     return navigateTo('/');

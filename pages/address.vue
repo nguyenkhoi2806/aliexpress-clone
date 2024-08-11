@@ -58,6 +58,7 @@
 import MainLayout from '~/layouts/main-layout.vue';
 import { useUserStore } from '~/stores/user';
 const userStore = useUserStore();
+const user = useSupabaseUser();
 
 let contactName = ref('');
 let address = ref('');
@@ -70,7 +71,18 @@ let isUpdate = ref(false);
 let isWorking = ref(false);
 let error = ref(null);
 
-watchEffect(() => {
+watchEffect(async () => {
+  currentAddress.value = await useFetch(
+    `/api/get-address-by-user/${userStore.user.id}`
+  );
+  if (currentAddress.value.data) {
+    contactName.value = currentAddress.value.data.name;
+    address.value = currentAddress.value.data.address;
+    zipCode.value = currentAddress.value.data.zipcode;
+    city.value = currentAddress.value.data.city;
+    country.value = currentAddress.value.data.country;
+    isUpdate.value = true;
+  }
   useUserStore.isLoading = false;
 });
 
@@ -108,5 +120,38 @@ const submit = async () => {
     isWorking.value = false;
     return;
   }
+
+  if (isUpdate.value) {
+    await useFetch(`/api/update-address/${currentAddress.value.data.id}`, {
+      method: 'PATCH',
+      body: {
+        name: contactName.value,
+        address: address.value,
+        zipcode: zipCode.value,
+        city: city.value,
+        country: country.value,
+        userId: user.value.id,
+      },
+    });
+    isWorking.value = false;
+
+    return navigateTo('/checkout');
+  }
+
+  await useFetch(`/api/add-address/`, {
+    method: 'POST',
+    body: {
+      userId: user.value.id,
+      name: contactName.value,
+      address: address.value,
+      zipCode: zipCode.value,
+      city: city.value,
+      country: country.value,
+    },
+  });
+
+  isWorking.value = false;
+
+  return navigateTo('/checkout');
 };
 </script>

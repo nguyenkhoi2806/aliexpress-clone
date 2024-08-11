@@ -1,7 +1,6 @@
 {
   "name": "nuxt-app",
   "private": true,
-  "type": "module",
   "prisma": {
     "seed": "node prisma/seed.js"
   },

@@ -5,11 +5,8 @@
         <div class="md:w-[65%]">
           <div class="bg-white rounded-lg p-4">
             <div class="text-xl font-semibold mb-2">Shipping Address</div>
-            <div v-if="true">
-              <NuxtLink
-                to="/address"
-                class="flex items-center pb-2 text-blue-500 hover:text-red-400"
-              >
+            <div v-if="currentAddress && currentAddress.data">
+              <NuxtLink to="/address" class="flex items-center pb-2 text-blue-500 hover:text-red-400">
                 <Icon name="mdi:plus" size="18" class="mr-2" />
                 Update Address
               </NuxtLink>
@@ -18,38 +15,44 @@
                 <ul class="text-xs">
                   <li class="flex items-center gap-2">
                     <div>Contact name:</div>
-                    <div class="font-bold"></div>
+                    <div class="font-bold">
+                      {{ currentAddress.data.name }}
+                    </div>
                   </li>
                   <li class="flex items-center gap-2">
                     <div>Address:</div>
-                    <div class="font-bold"></div>
+                    <div class="font-bold">
+                      {{ currentAddress.data.address }}
+                    </div>
                   </li>
                   <li class="flex items-center gap-2">
                     <div>Zip Code:</div>
-                    <div class="font-bold"></div>
+                    <div class="font-bold">
+                      {{ currentAddress.data.zipcode }}
+                    </div>
                   </li>
                   <li class="flex items-center gap-2">
                     <div>City:</div>
-                    <div class="font-bold"></div>
+                    <div class="font-bold">
+                      {{ currentAddress.data.city }}
+                    </div>
                   </li>
                   <li class="flex items-center gap-2">
                     <div>Country:</div>
-                    <div class="font-bold"></div>
+                    <div class="font-bold">
+                      {{ currentAddress.data.country }}
+                    </div>
                   </li>
                 </ul>
               </div>
             </div>
-            <NuxtLink
-              v-else
-              to="/address"
-              class="flex items-center text-blue-500 hover:text-red-400"
-            >
+            <NuxtLink v-else to="/address" class="flex items-center text-blue-500 hover:text-red-400">
               <Icon name="mdi:plus" size="18" class="mr-2" />
               Add New Address
             </NuxtLink>
           </div>
           <div id="Items" class="bg-white rounded-lg p-4 mt-4">
-            <div v-for="product in products">
+            <div v-for="product in userStore.checkout" v-bind:key="product.id">
               <CheckoutItem :product="product" />
             </div>
           </div>
@@ -69,21 +72,11 @@
               </div>
             </div>
             <form @submit.prevent="pay()">
-              <div
-                class="border border-gray-500 p-2 rounded-sm"
-                id="card-element"
-              />
-              <p
-                id="card-error"
-                role="alert"
-                class="text-red-700 text-center font-semibold"
-              />
-              <button
-                :disabled="isProcessing"
-                type="submit"
+              <div class="border border-gray-500 p-2 rounded-sm" id="card-element" />
+              <p id="card-error" role="alert" class="text-red-700 text-center font-semibold" />
+              <button :disabled="isProcessing" type="submit"
                 class="mt-4 bg-gradient-to-r from-[#FE630C] to-[#FF3200] w-full text-white text-[21px] font-semibold p-1.5 rounded-full"
-                :class="isProcessing ? 'opacity-70' : 'opacity-100'"
-              >
+                :class="isProcessing ? 'opacity-70' : 'opacity-100'">
                 <Icon v-if="isProcessing" name="eos-icons:loading" />
                 <div v-else>Place order</div>
               </button>
@@ -105,6 +98,7 @@
 import MainLayout from '~/layouts/main-layout.vue';
 import { useUserStore } from '~/stores/user';
 const userStore = useUserStore();
+const user = useSupabaseUser();
 const route = useRoute();
 
 let stripe = null;
@@ -115,6 +109,25 @@ let total = ref(0);
 let clientSecret = null;
 let currentAddress = ref(null);
 let isProcessing = ref(false);
+
+onBeforeMount(async () => {
+  if (userStore.checkout.length < 1) {
+    return navigateTo('/shopping-cart');
+  }
+
+  total.value = 0.00
+
+  if (user.value) {
+    currentAddress.value = await useFetch(`/api/get-address-by-user/${user.value.id}`)
+    setTimeout(() => userStore.isLoading = false, 200)
+  }
+});
+
+watchEffect(() => {
+  if (!user.value) {
+    return navigateTo('/auth')
+  }
+})
 
 onMounted(async () => {
   isProcessing.value = true;
@@ -133,28 +146,12 @@ watch(
   }
 );
 
-const stripeInit = async () => {};
+const stripeInit = async () => { };
 
-const pay = async () => {};
+const pay = async () => { };
 
-const createOrder = () => {};
+const createOrder = () => { };
 
-const showError = (errorMsgText) => {};
+const showError = (errorMsgText) => { };
 
-const products = [
-  {
-    id: 1,
-    title: 'Product 1',
-    description: 'Description 1',
-    price: 100,
-    url: 'https://picsum.photos/200/300',
-  },
-  {
-    id: 2,
-    title: 'Product 2',
-    description: 'Description 2',
-    price: 200,
-    url: 'https://picsum.photos/200/301',
-  },
-];
 </script>

@@ -21,6 +21,8 @@ export default defineNuxtConfig({
       script: [{ src: 'https://js.stripe.com/v3', defer: true }],
     },
   },
-
+  supabase: {
+    redirect: false,
+  },
   compatibilityDate: '2024-08-08',
 });

@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
     await prisma.orderItem.create({
       data: {
         orderId: order.id,
-        productId: Number(prod.id),
+        productId: Number(product.id),
       },
     });
   });

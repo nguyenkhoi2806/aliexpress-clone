@@ -1,6 +1,5 @@
 export default defineNuxtConfig({
   pages: true,
-
   modules: [
     'nuxt-icon',
     'nuxt-lodash',
@@ -9,13 +8,11 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@nuxtjs/supabase',
   ],
-
   runtimeConfig: {
     public: {
-      stripePk: process.env.STRIPE_PK,
+      stripePk: "pk_test_omlXjzDjv5JiiZriL2q7XT3d00PisYvFQu",
     },
   },
-
   app: {
     head: {
       script: [{ src: 'https://js.stripe.com/v3', defer: true }],

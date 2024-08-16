@@ -137,21 +137,93 @@ onMounted(async () => {
   });
 });
 
-watch(
-  () => total.value,
-  () => {
-    if (total.value > 0) {
-      stripeInit();
-    }
+watch(() => total.value, () => {
+  if (total.value > 0) {
+    stripeInit()
   }
-);
+})
 
-const stripeInit = async () => { };
+const stripeInit = async () => {
+  stripe = Stripe("pk_test_omlXjzDjv5JiiZriL2q7XT3d00PisYvFQu");
 
-const pay = async () => { };
+  let res = await $fetch('/api/stripe/paymentintent', {
+    method: 'POST',
+    body: {
+      amount: total.value,
+    }
+  })
+  clientSecret = res.client_secret
 
-const createOrder = () => { };
+  elements = stripe.elements();
+  const style = {
+    base: {
+      fontSize: "18px",
+    },
+    invalid: {
+      fontFamily: 'Arial, sans-serif',
+      color: "#EE4B2B",
+      iconColor: "#EE4B2B"
+    }
+  };
+  card = elements.create("card", {
+    hidePostalCode: true,
+    style: style
+  });
 
-const showError = (errorMsgText) => { };
+  card.mount("#card-element");
+  card.on("change", function (event) {
+    document.querySelector("button").disabled = event.empty;
+    document.querySelector("#card-error").textContent = event.error ? event.error.message : "";
+  });
+
+  isProcessing.value = false
+};
+
+const pay = async () => {
+  if (currentAddress.value && currentAddress.value.data == '') {
+    showError('Please add shipping address')
+    return
+  }
+  isProcessing.value = true
+
+  const result = await stripe.confirmCardPayment(clientSecret, {
+    payment_method: { card: card },
+  })
+
+  if (result.error) {
+    showError(result.error.message);
+    isProcessing.value = false
+  } else {
+    await createOrder(result.paymentIntent.id)
+    userStore.cart = []
+    userStore.checkout = []
+    setTimeout(() => {
+      return navigateTo('/success')
+    }, 500)
+  }
+};
+
+const createOrder = async (stripeId) => {
+  await useFetch('/api/create-order', {
+    method: "POST",
+    body: {
+      userId: user.value.id,
+      stripeId: stripeId,
+      name: currentAddress.value.data.name,
+      address: currentAddress.value.data.address,
+      zipcode: currentAddress.value.data.zipcode,
+      city: currentAddress.value.data.city,
+      country: currentAddress.value.data.country,
+      products: userStore.checkout
+    }
+  })
+
+};
+
+const showError = (errorMsgText) => {
+  const errorMsg = document.querySelector("#card-error");
+  errorMsg.textContent = errorMsgText;
+  setTimeout(() => { errorMsg.textContent = "" }, 4000);
+};
 
 </script>

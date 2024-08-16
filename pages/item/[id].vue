@@ -88,11 +88,13 @@ const route = useRoute();
 
 const product = ref(null);
 
-onBeforeMount(async () => {
+const loadProductDetail =async () => {
   product.value = await useFetch(`/api/get-product-by-id/${route.params.id}`);
-});
+};
 
-let currentImage = ref(null);
+loadProductDetail();
+
+const currentImage = ref(null);
 const images = ref([
   'https://picsum.photos/id/212/800/800',
   'https://picsum.photos/id/233/800/800',

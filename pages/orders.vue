@@ -43,17 +43,17 @@ import { useUserStore } from '~/stores/user';
 const userStore = useUserStore()
 const user = useSupabaseUser()
 
-let orders = ref(null)
+const orders = ref(null)
 
-onBeforeMount(async () => {
+const loadOrder = async () => {
     orders.value = await useFetch(`/api/get-all-orders-by-user/${user.value.id}`)
-})
+}
+loadOrder();
 
 onMounted(() => {
     if (!user.value) {
         return navigateTo('/auth')
     }
-
     setTimeout(() => userStore.isLoading = false, 200)
 })
 </script>

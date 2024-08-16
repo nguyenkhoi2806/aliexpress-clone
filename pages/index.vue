@@ -17,11 +17,14 @@ import { useUserStore } from '~/stores/user';
 
 const userStore = useUserStore();
 
-let products = ref(null)
+const products = ref(null)
 
-onBeforeMount(async () => {
+const fetchProducts = (async () => {
     products.value = await useFetch('/api/get-all-product')
-    setTimeout(() => userStore.isLoading = false, 200)
 })
+
+userStore.isLoading = true
+fetchProducts()
+setTimeout(() => userStore.isLoading = false, 500)
 
 </script>

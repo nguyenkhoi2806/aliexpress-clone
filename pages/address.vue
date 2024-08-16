@@ -73,7 +73,7 @@ let error = ref(null);
 
 watchEffect(async () => {
   currentAddress.value = await useFetch(
-    `/api/get-address-by-user/${userStore.user.id}`
+    `/api/get-address-by-user/${user.value.id}`
   );
   if (currentAddress.value.data) {
     contactName.value = currentAddress.value.data.name;
@@ -83,7 +83,7 @@ watchEffect(async () => {
     country.value = currentAddress.value.data.country;
     isUpdate.value = true;
   }
-  useUserStore.isLoading = false;
+  userStore.isLoading = false;
 });
 
 const submit = async () => {

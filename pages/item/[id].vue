@@ -26,7 +26,7 @@
         </div>
         <div class="md:w-[60%] bg-white p-3 rounded-lg">
           <div v-if="product && product.data">
-            <p class="mb-2">{{ product.data.name }}</p>
+            <p class="mb-2">{{ product.data.title }}</p>
             <p class="font-light text-[12px] mb-2">
               {{ product.data.description }}
             </p>
@@ -94,11 +94,11 @@ onBeforeMount(async () => {
 
 let currentImage = ref(null);
 const images = ref([
-  'https://picsum.photos/id/77/200/300',
-  'https://picsum.photos/id/78/200/300',
-  'https://picsum.photos/id/79/200/300',
-  'https://picsum.photos/id/80/200/300',
-  'https://picsum.photos/id/81/200/300',
+  'https://picsum.photos/id/212/800/800',
+  'https://picsum.photos/id/233/800/800',
+  'https://picsum.photos/id/165/800/800',
+  'https://picsum.photos/id/99/800/800',
+  'https://picsum.photos/id/144/800/800',
 ]);
 
 watchEffect(() => {
@@ -110,7 +110,7 @@ watchEffect(() => {
 });
 
 const isInCart = computed(() => {
-  return userStore.cart.some((product) => route.params.id === product.id);
+  return userStore.cart.some((product) => route.params.id == product.id);
 });
 
 const priceComputed = computed(() => {
@@ -121,6 +121,6 @@ const priceComputed = computed(() => {
 });
 
 const addToCart = () => {
-  useUserStore.cart.push(product.value.data);
+  userStore.cart.push(product.value.data)
 };
 </script>

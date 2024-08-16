@@ -1,13 +1,13 @@
 <template>
     <MainLayout>
         <div id="ShoppingCartPage" class="mt-4 max-w-[1200px] mx-auto px-2">
-            <div v-if="false" class="h-[500px] flex items-center justify-center flex-col">
+            <div v-if="!userStore.cart.length" class="h-[500px] flex items-center justify-center flex-col">
                 <div class="pt-20"></div>
                 <img class="mx-auto" width="250" src="/cart-empty.png" />
                 <div class="text-xl text-center mt-4">
                     No items yet ?
                 </div>
-                <div v-if="true" class="flex text-center w-[300px]">
+                <div v-if="!user" class="flex text-center w-[300px]">
                     <NuxtLink to="/auth" class="
                                 bg-[#FD374F] 
                                 w-full 
@@ -22,11 +22,11 @@
                     </NuxtLink>
                 </div>
             </div>
-            <div v-if="true" class="md:flex gap-4 justify-between mx-auto w-full">
+            <div v-else class="md:flex gap-4 justify-between mx-auto w-full">
                 <div class="md:w-[65%]">
                     <div class="bg-white rounded-lg p-4">
                         <div class="text-2xl font-bold mb-2">
-                            Shopping Cart (0)
+                            Shopping Cart ({{ userStore.cart.length }})
                         </div>
                     </div>
                     <div class="bg-[#FEEEEF] rounded-lg p-4 mt-4">
@@ -35,7 +35,7 @@
                         </div>
                     </div>
                     <div id="Items" class="bg-white rounded-lg p-4 mt-4">
-                        <div v-for="product in products" v-bind:key="product.id">
+                        <div v-for="product in userStore.cart" v-bind:key="product.id">
                             <CartItem :product="product" :selectedArray="selectedArray"
                                 @selectedRadio="selectedRadioFunc" />
                         </div>
@@ -94,6 +94,7 @@
 import MainLayout from '~/layouts/main-layout.vue';
 import { useUserStore } from '~/stores/user';
 const userStore = useUserStore();
+const user = useSupabaseUser();
 
 let selectedArray = ref([]);
 
@@ -108,22 +109,6 @@ const cards = ref([
     'applepay.png',
 ])
 
-const products = [
-    {
-        "id": 1,
-        "title": "Product 1",
-        "description": "Description 1",
-        "price": 100,
-        "url": "https://picsum.photos/200/300"
-    },
-    {
-        "id": 2,
-        "title": "Product 2",
-        "description": "Description 2",
-        "price": 200,
-        "url": "https://picsum.photos/200/301"
-    },
-]
 
 const totalPriceComputed = computed(() => {
     const price = userStore.cart.reduce((total, prod) => total + prod.price, 0);

@@ -45,15 +45,15 @@ const user = useSupabaseUser()
 
 const orders = ref(null)
 
-const loadOrder = async () => {
+onBeforeMount(async () => {
     orders.value = await useFetch(`/api/get-all-orders-by-user/${user.value.id}`)
-}
-loadOrder();
+})
 
 onMounted(() => {
     if (!user.value) {
         return navigateTo('/auth')
     }
+
     setTimeout(() => userStore.isLoading = false, 200)
 })
 </script>

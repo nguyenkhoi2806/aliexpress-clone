@@ -19,12 +19,10 @@ const userStore = useUserStore();
 
 const products = ref(null)
 
-const fetchProducts = (async () => {
+onBeforeMount(async () => {
+    userStore.isLoading = true
     products.value = await useFetch('/api/get-all-product')
+    setTimeout(() => userStore.isLoading = false, 500)
 })
-
-userStore.isLoading = true
-fetchProducts()
-setTimeout(() => userStore.isLoading = false, 500)
 
 </script>

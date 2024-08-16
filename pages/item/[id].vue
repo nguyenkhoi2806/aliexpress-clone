@@ -88,11 +88,9 @@ const route = useRoute();
 
 const product = ref(null);
 
-const loadProductDetail =async () => {
+onBeforeMount(async () => {
   product.value = await useFetch(`/api/get-product-by-id/${route.params.id}`);
-};
-
-loadProductDetail();
+});
 
 const currentImage = ref(null);
 const images = ref([

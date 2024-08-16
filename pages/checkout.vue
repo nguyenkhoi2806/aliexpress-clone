@@ -97,14 +97,15 @@
 <script setup>
 import MainLayout from '~/layouts/main-layout.vue';
 import { useUserStore } from '~/stores/user';
+
+definePageMeta({ middleware: "auth" });
+
 const userStore = useUserStore();
 const user = useSupabaseUser();
-const route = useRoute();
 
 let stripe = null;
 let elements = null;
 let card = null;
-let form = null;
 let total = ref(0);
 let clientSecret = null;
 let currentAddress = ref(null);
@@ -122,12 +123,6 @@ onBeforeMount(async () => {
     setTimeout(() => userStore.isLoading = false, 200)
   }
 });
-
-watchEffect(() => {
-  if (!user.value) {
-    return navigateTo('/auth')
-  }
-})
 
 onMounted(async () => {
   isProcessing.value = true;

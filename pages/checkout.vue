@@ -141,7 +141,7 @@ watch(() => total.value, () => {
 const stripeInit = async () => {
   stripe = Stripe("pk_test_omlXjzDjv5JiiZriL2q7XT3d00PisYvFQu");
 
-  let res = await $fetch('/api/stripe/paymentintent', {
+  const res = await $fetch('/api/stripe/paymentintent', {
     method: 'POST',
     body: {
       amount: total.value,

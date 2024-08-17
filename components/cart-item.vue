@@ -1,17 +1,5 @@
 <template>
     <div id="CartItem" class="flex my-4 justify-start">
-        <div class="my-auto">
-            <div @mouseenter="isHover = true" @mouseleave="isHover = false"
-                class="flex items-center justify-start p-0.5 cursor-pointer">
-                <div @click="isSelected = !isSelected"
-                    class=" flex items-center justify-center h-[20px] w-[20px] rounded-full border mr-5 ml-2" :class="[
-                        isHover ? 'border-[#FD374F]' : 'border-gray-300',
-                        isSelected ? 'bg-[#FD374F]' : ''
-                    ]">
-                    <div class="h-[8px] w-[8px] rounded-full bg-white" />
-                </div>
-            </div>
-        </div>
         <img class="rounded-md md:w-[150px] w-[90px] h-[120px]" :src="product.url">
         <div class="overflow-hidden pl-2 w-full ">
             <div class="flex items-center justify-between w-full">
@@ -49,11 +37,9 @@ import { useUserStore } from '~/stores/user';
 const userStore = useUserStore();
 
 const props = defineProps(['product', 'selectedArray'])
-const { product, selectedArray } = toRefs(props)
+const { product } = toRefs(props)
 
 const emit = defineEmits(['selectedRadio']);
-let isHover = ref(false);
-let isSelected = ref(false);
 
 const removeFromCart = () => {
     userStore.cart.forEach((prod, index) => {
@@ -62,9 +48,5 @@ const removeFromCart = () => {
         }
     })
 }
-
-watch(() => isSelected.value, (val) => {
-    emit('selectedRadio', { id: product.value.id, val })
-});
 
 </script>

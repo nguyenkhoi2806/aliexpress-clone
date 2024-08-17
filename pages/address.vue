@@ -3,15 +3,7 @@
     <div id="AddressPage" class="mt-4 max-w-[500px] mx-auto px-2">
       <div class="mx-auto bg-white rounded-lg p-3">
         <div class="text-xl text-bold mb-2">Address Details</div>
-        <form @submit.prevent="submit()" class="flex flex-col gap-5">
-          <TextInput
-            class="w-full"
-            placeholder="Contact Name"
-            v-model:input="contactName"
-            inputType="text"
-            :error="error && error.type == 'contactName' ? error.message : ''"
-          />
-
+        <form @submit.prevent="submit()" class="flex flex-col gap-5"> 
           <TextInput
             class="w-full"
             placeholder="Contact Name"
@@ -66,12 +58,12 @@ let zipCode = ref('');
 let city = ref('');
 let country = ref('');
 
-let currentAddress = ref(null);
+const currentAddress = ref(null);
 let isUpdate = ref(false);
 let isWorking = ref(false);
 let error = ref(null);
 
-watchEffect(async () => {
+onBeforeMount(async () => {
   currentAddress.value = await useFetch(
     `/api/get-address-by-user/${user.value.id}`
   );

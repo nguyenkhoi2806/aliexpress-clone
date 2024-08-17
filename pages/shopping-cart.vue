@@ -36,8 +36,7 @@
                     </div>
                     <div id="Items" class="bg-white rounded-lg p-4 mt-4">
                         <div v-for="product in userStore.cart" v-bind:key="product.id">
-                            <CartItem :product="product" :selectedArray="selectedArray"
-                                @selectedRadio="selectedRadioFunc" />
+                            <CartItem :product="product" />
                         </div>
                     </div>
                 </div>
@@ -96,8 +95,6 @@ import { useUserStore } from '~/stores/user';
 const userStore = useUserStore();
 const user = useSupabaseUser();
 
-let selectedArray = ref([]);
-
 onMounted(() => {
     setTimeout(() => userStore.isLoading = false, 200)
 })
@@ -109,40 +106,13 @@ const cards = ref([
     'applepay.png',
 ])
 
-
 const totalPriceComputed = computed(() => {
     const price = userStore.cart.reduce((total, prod) => total + prod.price, 0);
     return price / 100;
 })
 
-const selectedRadioFunc = (e) => {
-
-    if (!selectedArray.value.length) {
-        selectedArray.value.push(e)
-        return
-    }
-
-    selectedArray.value.forEach((item, index) => {
-        if (e.id != item.id) {
-            selectedArray.value.push(e)
-        } else {
-            selectedArray.value.splice(index, 1);
-        }
-    })
-}
-
 const goToCheckout = () => {
-    let ids = []
-    userStore.checkout = []
-
-    selectedArray.value.forEach(item => ids.push(item.id))
-
-    let res = userStore.cart.filter((item) => {
-        return ids.indexOf(item.id) != -1
-    })
-
-    res.forEach(item => userStore.checkout.push(toRaw(item)))
-
+    userStore.checkout = userStore.cart
     return navigateTo('/checkout')
 }
 

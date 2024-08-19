@@ -1,6 +1,10 @@
 <template>
   <MainLayout>
-    <div id="IndexPage" class="mt-4 max-w-[1200px] mx-auto px-2">
+    <div
+      id="IndexPage"
+      class="mt-4 max-w-[1200px] mx-auto px-2"
+      @scroll="handleScroll"
+    >
       <div
         v-if="products"
         class="grid xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-4"
@@ -21,28 +25,6 @@ import { useUserStore } from '~/stores/user';
 const userStore = useUserStore();
 const products = ref({ data: [], page: 1 });
 
-const fetchProducts = async (page = 1) => {
-  try {
-    const response = await useFetch(`/api/get-all-product?page=${page}`);
-    console.log(response.data._rawValue);
-    products.value.data.push(...response.data._rawValue);
-    products.value.page = page;
-  } catch (error) {
-    console.error('Error fetching products:', error);
-  }
-};
-
-const handleScroll = async () => {
-  const bottomOfWindow =
-    window.innerHeight + window.scrollY >=
-    document.documentElement.offsetHeight - 100;
-  if (bottomOfWindow && !useUserStore.isLoading) {
-    useUserStore.isLoading = true;
-    await fetchProducts(products.value.page + 1);
-    setTimeout(() => (userStore.isLoading = false), 500);
-  }
-};
-
 onMounted(() => {
   window.addEventListener('scroll', handleScroll);
 });
@@ -56,4 +38,36 @@ onBeforeMount(async () => {
   await fetchProducts();
   setTimeout(() => (userStore.isLoading = false), 500);
 });
+
+const fetchProducts = async (page = 1) => {
+  try {
+    const response = await useFetch(`/api/get-all-product?page=${page}`);
+    console.log(response.data);
+    products.value.data = products.value.data.concat(response.data)[0];
+    products.value.page = page;
+  } catch (error) {
+    console.error('Error fetching products:', error);
+  }
+};
+
+const handleScroll = async () => {
+  if (userStore.isLoading) {
+    return;
+  }
+  const bottomOfWindow =
+    Math.max(
+      window.pageYOffset,
+      document.documentElement.scrollTop,
+      document.body.scrollTop
+    ) +
+      window.innerHeight ===
+    document.documentElement.offsetHeight;
+
+  if (bottomOfWindow) {
+    userStore.isLoading = true;
+    console.log('ok');
+    // await fetchProducts(products.value.page + 1);
+    setTimeout(() => (userStore.isLoading = false), 500);
+  }
+};
 </script>

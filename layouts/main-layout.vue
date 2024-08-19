@@ -179,6 +179,7 @@
 import { useUserStore } from '~/stores/user';
 const userStore = useUserStore();
 const user = useSupabaseUser();
+const client = useSupabaseClient();
 
 let isAccountMenu = ref(false);
 let isCartHover = ref(false);

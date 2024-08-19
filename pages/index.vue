@@ -35,15 +35,15 @@ onUnmounted(() => {
 
 onBeforeMount(async () => {
   userStore.isLoading = true;
-  await fetchProducts();
+  const response = await useFetch(`/api/get-all-product?page=1`);
+  products.value.data = response.data;
   setTimeout(() => (userStore.isLoading = false), 500);
 });
 
 const fetchProducts = async (page = 1) => {
   try {
     const response = await useFetch(`/api/get-all-product?page=${page}`);
-    console.log(response.data);
-    products.value.data = products.value.data.concat(response.data)[0];
+    products.value.data = products.value.data.concat(response.data._rawValue);
     products.value.page = page;
   } catch (error) {
     console.error('Error fetching products:', error);
@@ -65,8 +65,8 @@ const handleScroll = async () => {
 
   if (bottomOfWindow) {
     userStore.isLoading = true;
-    console.log('ok');
-    // await fetchProducts(products.value.page + 1);
+    products.value.page = products.value.page + 1;
+    await fetchProducts(products.value.page);
     setTimeout(() => (userStore.isLoading = false), 500);
   }
 };

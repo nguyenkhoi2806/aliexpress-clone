@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
 
   const products = await prisma.products.findMany({
     skip: (page - 1) * pageSize,
-    take: pageSize + 1,
+    take: pageSize,
   });
 
   return products;

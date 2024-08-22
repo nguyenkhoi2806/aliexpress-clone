@@ -1,8 +1,10 @@
-FROM node:20.16
+FROM node:20.16-alpine
 
 WORKDIR /usr/src/app
 
 RUN npm install -g pnpm
+
+RUN npm install -g prisma
 
 COPY package.json pnpm-lock.yaml ./
 
@@ -10,9 +12,9 @@ RUN pnpm install --frozen-lockfile
 
 COPY . .
 
-RUN npx prisma generate
+RUN prisma generate
 
-RUN npx prisma db seed
+RUN prisma db seed
 
 RUN pnpm run build
 

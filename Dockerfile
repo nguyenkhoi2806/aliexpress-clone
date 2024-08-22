@@ -12,6 +12,8 @@ COPY . .
 
 RUN npx prisma generate
 
+RUN npx prisma db seed
+
 RUN pnpm run build
 
 EXPOSE 3000

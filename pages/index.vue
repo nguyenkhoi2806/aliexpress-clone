@@ -52,7 +52,7 @@ const fetchProducts = async (page = 1) => {
 
 const handleScroll = async () => {
   if (userStore.isLoading) {
-    return;
+    return;``
   }
   const bottomOfWindow =
     Math.max(

@@ -12,11 +12,7 @@ RUN pnpm install --frozen-lockfile
 
 COPY . .
 
-RUN prisma generate
-
-RUN prisma db seed
-
-RUN pnpm run build
+RUN prisma generate && prisma db seed && pnpm run build
 
 EXPOSE 3000
 

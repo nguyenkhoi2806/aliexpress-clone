@@ -8,11 +8,13 @@ RUN npm install -g prisma
 
 COPY package.json pnpm-lock.yaml ./
 
+COPY prisma ./prisma/
+
 RUN pnpm install --frozen-lockfile
 
 COPY . .
 
-RUN prisma generate && prisma db seed && pnpm run build
+RUN prisma generate && pnpm run build
 
 EXPOSE 3000
 

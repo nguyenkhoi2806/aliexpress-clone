@@ -1,37 +1,36 @@
 version: '3.8'
 
 services:
-  app:
-    build: 
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
-    volumes:
-      - .:/usr/src/app
-    depends_on:
-      - db
-    environment:
-      - NODE_ENV=production
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/nuxtdb
-      - SUPABASE_URL=https://jqmchpvijyohpdincoom.supabase.co
-      - SUPABASE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpxbWNocHZpanlvaHBkaW5jb29tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjMzNzIxOTUsImV4cCI6MjAzODk0ODE5NX0.eU6pi3Cydw8hAi_-oJp8WHCYnYtfZuHjFSLfpNfFtDA
-      - STRIPE_PK_KEY=pk_test_omlXjzDjv5JiiZriL2q7XT3d00PisYvFQu
-      - STRIPE_SK_KEY=sk_test_OdhcxJOodiL864hUbQXsmXWO002jY45IkF
-    
+  # app:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "3000:3000"
+  #   volumes:
+  #     - .:/usr/src/app
+  #   networks:
+  #     - app-network
+  #   depends_on:
+  #     - db
+  #   environment:
+  #     - NODE_ENV=production
+  #     - DATABASE_URL=postgresql://postgres:postgres@db:5432/nuxtdb
+  #     - SUPABASE_URL=https://jqmchpvijyohpdincoom.supabase.co
+  #     - SUPABASE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpxbWNocHZpanlvaHBkaW5jb29tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjMzNzIxOTUsImV4cCI6MjAzODk0ODE5NX0.eU6pi3Cydw8hAi_-oJp8WHCYnYtfZuHjFSLfpNfFtDA
+  #     - STRIPE_PK_KEY=pk_test_omlXjzDjv5JiiZriL2q7XT3d00PisYvFQu
+  #     - STRIPE_SK_KEY=sk_test_OdhcxJOodiL864hUbQXsmXWO002jY45IkF
+
   db:
-    build:
-      context: .
-      dockerfile: Dockerfile.postgres
-    ports:
-      - "5432:5432"
+    image: postgres:13.5
+    restart: always
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: nuxtdb
-      PRISMA_CLI_BINARY_TARGETS: 'debian-openssl-3.0.x'
+      - POSTGRES_USER=myuser
+      - POSTGRES_PASSWORD=mypassword
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
 
 volumes:
-  db_data:
+  postgres:

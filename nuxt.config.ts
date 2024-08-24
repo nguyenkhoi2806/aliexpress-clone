@@ -10,7 +10,7 @@ export default defineNuxtConfig({
   ],
   runtimeConfig: {
     public: {
-      stripePk: "pk_test_omlXjzDjv5JiiZriL2q7XT3d00PisYvFQu",
+      stripePk: 'pk_test_omlXjzDjv5JiiZriL2q7XT3d00PisYvFQu',
     },
   },
   app: {

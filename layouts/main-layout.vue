@@ -74,7 +74,7 @@
               </li>
               <li
                 v-if="user"
-                @click="client.auth.signOut()"
+                @click="signOut()"
                 class="text-[13px] py-2 px-4 w-full hover:bg-gray-200"
               >
                 Sign out
@@ -192,6 +192,11 @@ const searchByName = useDebounce(async () => {
   items.value = await useFetch(`/api/search-by-name/${searchItem.value}`);
   isSearching.value = false;
 }, 500);
+
+const signOut = () => {
+  client.auth.signOut();
+  navigateTo('/');
+};
 
 watch(
   () => searchItem.value,

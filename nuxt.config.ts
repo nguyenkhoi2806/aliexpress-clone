@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     '@pinia-plugin-persistedstate/nuxt',
     '@nuxtjs/tailwindcss',
     '@nuxtjs/supabase',
+    '@nuxt/image',
   ],
   runtimeConfig: {
     public: {

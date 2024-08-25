@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 export default defineEventHandler(async (event) => {
   const query = getQuery(event);
   const page = parseInt(query.page) || 1;
-  const pageSize = 24;
+  const pageSize = 16;
 
   const products = await prisma.products.findMany({
     skip: (page - 1) * pageSize,

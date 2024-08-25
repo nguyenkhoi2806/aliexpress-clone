@@ -125,10 +125,11 @@ let elements = null;
 let card = null;
 let total = ref(0);
 let clientSecret = null;
-let currentAddress = ref(null);
-let isProcessing = ref(false);
+const currentAddress = ref(null);
+const isProcessing = ref(false);
 
 onBeforeMount(async () => {
+  userStore.isLoading = true;
   if (userStore.checkout.length < 1) {
     return navigateTo('/shopping-cart');
   }
@@ -140,10 +141,9 @@ onBeforeMount(async () => {
   }
 
   if (user.value) {
-    currentAddress.value = await useFetch(
-      `/api/get-address-by-user/${user.value.id}`
-    );
-    setTimeout(() => (userStore.isLoading = false), 200);
+    const address = await useFetch(`/api/get-address-by-user/${user.value.id}`);
+    console.log(address);
+    currentAddress.value = address;
   }
 });
 
@@ -199,12 +199,15 @@ const stripeInit = async () => {
       : '';
   });
 
-  isProcessing.value = false;
-  userStore.isLoading = false;
+  card.on('ready', () => {
+    isProcessing.value = false;
+    userStore.isLoading = false;
+  });
 };
 
 const pay = async () => {
-  if (currentAddress.value && currentAddress.value.data == '') {
+  console.log(currentAddress.value);
+  if (!currentAddress.value?.data?.name) {
     showError('Please add shipping address');
     return;
   }

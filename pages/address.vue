@@ -3,14 +3,23 @@
     <div id="AddressPage" class="mt-4 max-w-[500px] mx-auto px-2">
       <div class="mx-auto bg-white rounded-lg p-3">
         <div class="text-xl text-bold mb-2">Address Details</div>
-        <form @submit.prevent="submit()" class="flex flex-col gap-5"> 
+        <form @submit.prevent="submit()" class="flex flex-col gap-5">
           <TextInput
             class="w-full"
             placeholder="Contact Name"
+            v-model:input="contactName"
+            inputType="text"
+            :error="error && error.type == 'address' ? error.message : ''"
+          />
+
+          <TextInput
+            class="w-full mt-2"
+            placeholder="Address"
             v-model:input="address"
             inputType="text"
             :error="error && error.type == 'address' ? error.message : ''"
           />
+
           <TextInput
             class="w-full"
             placeholder="Zip Code"
@@ -67,7 +76,7 @@ onBeforeMount(async () => {
   currentAddress.value = await useFetch(
     `/api/get-address-by-user/${user.value.id}`
   );
-  if (currentAddress.value.data) {
+  if (currentAddress.value.data.name) {
     contactName.value = currentAddress.value.data.name;
     address.value = currentAddress.value.data.address;
     zipCode.value = currentAddress.value.data.zipcode;

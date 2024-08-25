@@ -41,7 +41,7 @@
           4.7
         </p>
 
-        <p class="px-1 pt-0.5 text-xs text-[#252525]">
+        <p class="px-1 pt-0.5 text-[15px] font-bold text-[#252525]">
           {{ product.title.substring(0, 60) }}
         </p>
 

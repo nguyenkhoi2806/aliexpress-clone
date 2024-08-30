@@ -124,7 +124,7 @@
     if (product.value && product.value.data) {
       currentImage.value = product.value.data.url;
       images[0] = product.value.data.url;
-      userStore.isLoading = false;
+      setTimeout(() => (userStore.isLoading = false), 500);
     }
   });
 

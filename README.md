@@ -38,6 +38,7 @@
 ```
 npx prisma run generate
 npx prisma migrate dev
+npx prisma db seed
 ```
 
 8. Start the development server:

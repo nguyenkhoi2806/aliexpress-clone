@@ -181,11 +181,11 @@ const userStore = useUserStore();
 const user = useSupabaseUser();
 const client = useSupabaseClient();
 
-let isAccountMenu = ref(false);
-let isCartHover = ref(false);
-let searchItem = ref('');
-let isSearching = ref(false);
-let items = ref(null);
+const isAccountMenu = ref(false);
+const isCartHover = ref(false);
+const searchItem = ref('');
+const isSearching = ref(false);
+const items = ref(null);
 
 const searchByName = useDebounce(async () => {
   isSearching.value = true;

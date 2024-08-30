@@ -1,7 +1,9 @@
 <template>
   <div>
     <div class="bg-[#FAFAFA]" />
-    <NuxtPage />
+    <MainLayout>
+      <NuxtPage />
+    </MainLayout>
     <MenuOverlay :class="[
       {
         'max-h-[100vh] transition-all duration-200 ease-in visible':
@@ -17,10 +19,11 @@
 
 <script setup>
 import { useUserStore } from '~/stores/user';
+import MainLayout from './layouts/main-layout.vue';
 const userStore = useUserStore();
 const route = useRoute();
 
-let windowWidth = ref(process.client ? window.innerWidth : '');
+const windowWidth = ref(process.client ? window.innerWidth : '');
 
 onMounted(() => {
   userStore.isLoading = true;

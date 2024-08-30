@@ -1,0 +1,13 @@
+{
+  "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
+  "words": [
+    "Adyen",
+    "dropin",
+    "datepicker",
+    "testid",
+    "aliexpress",
+    "nuxt",
+    "nuxtlink",
+    "useSupabaseUser"
+  ]
+}

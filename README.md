@@ -19,8 +19,7 @@
 5. Start Docker containers:
 
    ```
-   docker-compose up -d
-   docker-compose up
+   docker-compose up --build
    ```
 
 6. Set up environment variables:

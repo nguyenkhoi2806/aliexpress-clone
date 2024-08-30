@@ -20,6 +20,7 @@
 
    ```
    docker-compose up -d
+   docker-compose up
    ```
 
 6. Set up environment variables:

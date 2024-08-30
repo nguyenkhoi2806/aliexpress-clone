@@ -33,24 +33,17 @@
    STRIPE_SK_KEY=sk_test_OdhcxJOodiL864hUbQXsmXWO002jY45IkF
    ```
 
-```
-
 7. Initialize the database:
 
 ```
-
 npx prisma run generate
 npx prisma migrate dev
-
 ```
 
 8. Start the development server:
 
 ```
-
 pnpm run start
-
 ```
 
 9. Access the app at `http://localhost:3000`
-```

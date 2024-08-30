@@ -1,75 +1,56 @@
-# Nuxt 3 Minimal Starter
+## Development Environment Setup
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+1. Install Node.js (v16 or later): https://nodejs.org/
 
-## Setup
+2. Install pnpm:
 
-Make sure to install the dependencies:
+   ```
+   npm install -g pnpm
+   ```
 
-```bash
-# npm
-npm install
+3. Install Docker: https://docs.docker.com/get-docker/
 
-# pnpm
-pnpm install
+4. Install dependencies:
 
-# yarn
-yarn install
+   ```
+   pnpm install
+   ```
 
-# bun
-bun install
+5. Start Docker containers:
+
+   ```
+   docker-compose up -d
+   ```
+
+6. Set up environment variables:
+   Create a `.env` file in the project root (adjust as needed):
+
+   ```
+   DATABASE_URL="postgresql://myuser:mypassword@localhost:5432/aliexpress-db?schema=public"
+   SUPABASE_URL=https://jqmchpvijyohpdincoom.supabase.co
+   SUPABASE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpxbWNocHZpanlvaHBkaW5jb29tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjMzNzIxOTUsImV4cCI6MjAzODk0ODE5NX0.eU6pi3Cydw8hAi*-oJp8WHCYnYtfZuHjFSLfpNfFtDA
+   STRIPE_PK_KEY=pk_test_omlXjzDjv5JiiZriL2q7XT3d00PisYvFQu
+   STRIPE_SK_KEY=sk_test_OdhcxJOodiL864hUbQXsmXWO002jY45IkF
+   ```
+
 ```
 
-## Development Server
+7. Initialize the database:
 
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
 
-## Production
+npx prisma run generate
+npx prisma migrate dev
 
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
 ```
 
-Locally preview production build:
+8. Start the development server:
 
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+pnpm run start
+
+```
+
+9. Access the app at `http://localhost:3000`
+```

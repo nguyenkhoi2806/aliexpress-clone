@@ -8,6 +8,7 @@
     "aliexpress",
     "nuxt",
     "nuxtlink",
-    "useSupabaseUser"
+    "useSupabaseUser",
+    "SUPABASE"
   ]
 }

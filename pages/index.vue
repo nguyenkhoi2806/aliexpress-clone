@@ -54,16 +54,17 @@
   const handleScroll = async () => {
     if (userStore.isLoading) {
       return;
-      ``;
     }
-    const bottomOfWindow =
-      Math.max(
-        window.pageYOffset,
-        document.documentElement.scrollTop,
-        document.body.scrollTop
-      ) +
-        window.innerHeight ===
-      document.documentElement.offsetHeight;
+
+    const scrollTop = Math.max(
+      window.pageYOffset,
+      document.documentElement.scrollTop,
+      document.body.scrollTop
+    );
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.offsetHeight;
+
+    const bottomOfWindow = scrollTop + windowHeight >= documentHeight - 10;
 
     if (bottomOfWindow) {
       userStore.isLoading = true;

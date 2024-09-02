@@ -23,4 +23,23 @@ export default defineNuxtConfig({
     redirect: false,
   },
   compatibilityDate: '2024-08-08',
+  routeRules: {
+    '/item/**': {
+      prerender: true,
+    },
+  },
+  hooks: {
+    async 'prerender:routes'(ctx: any) {
+      try {
+        const { pages } = await fetch(
+          'http://localhost:3000/api/get-page-products'
+        ).then((res) => res.json());
+        for (const page of pages) {
+          ctx.routes.add(`/item/${page.id}`);
+        }
+      } catch (error) {
+        console.error('Error fetching pages:', error);
+      }
+    },
+  },
 });

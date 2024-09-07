@@ -12,6 +12,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       stripePk: 'pk_test_omlXjzDjv5JiiZriL2q7XT3d00PisYvFQu',
+      DATABASE_URL: process.env.DATABASE_URL,
     },
   },
   app: {
@@ -31,7 +32,35 @@ export default defineNuxtConfig({
     },
     prerender: {
       failOnError: false,
-      routes: ['/item/1', '/item/2'],
+    },
+  },
+  hooks: {
+    async 'nitro:config'(nitroConfig) {
+      if (nitroConfig.dev) {
+        return;
+      }
+      const { pages } = await fetchRoutes();
+      for (const page of pages) {
+        //@ts-ignore
+        nitroConfig.prerender.routes.push(`/item/${page.id}`);
+      }
     },
   },
 });
+
+async function fetchRoutes() {
+  const response = await fetch(
+    'https://mocki.io/v1/02586b1c-16fa-4513-926f-ff45c9a4c0c0'
+  );
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  const data = await response.json();
+
+  if (!Array.isArray(data.pages)) {
+    throw new Error('Expected pages to be an array');
+  }
+
+  return data;
+}

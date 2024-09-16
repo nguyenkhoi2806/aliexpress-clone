@@ -20,7 +20,7 @@
 </template>
 
 <script setup>
-  import { ref, onBeforeMount, onMounted, onUnmounted } from 'vue';
+  import { ref, onMounted, onUnmounted } from 'vue';
   import { useUserStore } from '~/stores/user';
 
   const userStore = useUserStore();
@@ -34,13 +34,6 @@
     window.removeEventListener('scroll', handleScroll);
   });
 
-  onBeforeMount(async () => {
-    userStore.isLoading = true;
-    const response = await useFetch(`/api/get-all-product?page=1`);
-    products.value.data = response.data;
-    setTimeout(() => (userStore.isLoading = false), 500);
-  });
-
   const fetchProducts = async (page = 1) => {
     try {
       const response = await useFetch(`/api/get-all-product?page=${page}`);
@@ -48,8 +41,12 @@
       products.value.page = page;
     } catch (error) {
       console.error('Error fetching products:', error);
+    } finally {
+      setTimeout(() => (userStore.isLoading = false), 500);
     }
   };
+
+  fetchProducts(1);
 
   const handleScroll = async () => {
     if (userStore.isLoading) {

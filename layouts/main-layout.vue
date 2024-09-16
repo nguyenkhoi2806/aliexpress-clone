@@ -206,6 +206,7 @@
   const userStore = useUserStore();
   const user = useSupabaseUser();
   const client = useSupabaseClient();
+  const route = useRoute();
 
   const isAccountMenu = ref(false);
   const isCartHover = ref(false);
@@ -237,4 +238,33 @@
       searchByName();
     }
   );
+
+  watch(
+    () => route.path,
+    () => {
+      items.value = null;
+    }
+  );
+
+  const resetItems = () => {
+    items.value = null;
+    searchByName.value = '';
+  };
+
+  const handleClickOutside = (event) => {
+    const inputElement = document.querySelector(
+      'input[placeholder="kitchen accessories"]'
+    );
+    if (inputElement && !inputElement.contains(event.target)) {
+      resetItems();
+    }
+  };
+
+  onMounted(() => {
+    document.addEventListener('click', handleClickOutside);
+  });
+
+  onBeforeUnmount(() => {
+    document.removeEventListener('click', handleClickOutside);
+  });
 </script>

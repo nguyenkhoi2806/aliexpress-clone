@@ -71,7 +71,7 @@
 
 <script setup>
   import { useUserStore } from '~/stores/user';
-  import { ref, onBeforeMount } from 'vue';
+  import { ref } from 'vue';
 
   const userStore = useUserStore();
   const user = useSupabaseUser();

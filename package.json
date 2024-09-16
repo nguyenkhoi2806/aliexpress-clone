@@ -9,7 +9,8 @@
     "start": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "format": "prettier --write . && git add -A ."
   },
   "dependencies": {
     "@faker-js/faker": "7.6.0",
@@ -19,7 +20,6 @@
     "@pinia/nuxt": "^0.5.2",
     "@prisma/client": "^5.17.0",
     "@stripe/stripe-js": "^4.1.0",
-    "husky": "^9.1.6",
     "nuxt": "^3.12.4",
     "nuxt-icon": "1.0.0-beta.7",
     "nuxt-lodash": "^2.5.3",
@@ -29,7 +29,9 @@
     "vue": "latest"
   },
   "devDependencies": {
-    "@nuxtjs/tailwindcss": "^6.12.1"
+    "@nuxtjs/tailwindcss": "^6.12.1",
+    "husky": "^9.1.6",
+    "prettier": "^3.3.3"
   },
   "pnpm": {
     "overrides": {

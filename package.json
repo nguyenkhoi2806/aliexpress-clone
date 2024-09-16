@@ -20,6 +20,7 @@
     "@prisma/client": "^5.17.0",
     "@stripe/stripe-js": "^4.1.0",
     "faker": "^6.6.6",
+    "husky": "^9.1.6",
     "nuxt": "^3.12.4",
     "nuxt-icon": "1.0.0-beta.7",
     "nuxt-lodash": "^2.5.3",

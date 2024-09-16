@@ -38,7 +38,7 @@
           </div>
         </li>
         <li
-          @click="goTo('shoppingcart')"
+          @click="goTo('shopping-cart')"
           class="relative flex items-center justify-between py-2.5 border-b px-3 hover:bg-gray-100 cursor-pointer"
         >
           <div class="flex items-center text-[20px] font-semibold">

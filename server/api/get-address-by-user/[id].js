@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 
 export default defineEventHandler(async (event) => {
   const response = await prisma.addresses.findFirst({
-    where: { userId: event.context.params.id }
+    where: { userId: event.context.params.id },
   });
   return response;
 });

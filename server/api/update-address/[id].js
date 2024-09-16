@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export default defineEventHandler(async (event) => {
-  const body = await readBody(event)
+  const body = await readBody(event);
 
   const res = await prisma.addresses.update({
     where: { id: Number(event.context.params.id) },
@@ -12,8 +12,8 @@ export default defineEventHandler(async (event) => {
       zipcode: body.zipcode,
       city: body.city,
       country: body.country,
-    }
-  })
+    },
+  });
 
-  return res
+  return res;
 });

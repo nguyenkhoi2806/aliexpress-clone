@@ -13,25 +13,28 @@
         autocomplete="off"
       />
     </client-only>
-    <span v-if="error" class="text-red-500 text-[14px] font-semibold">
+    <span
+      v-if="error"
+      class="text-red-500 text-[14px] font-semibold"
+    >
       {{ error }}
     </span>
   </div>
 </template>
 
 <script setup>
-const emit = defineEmits(['update:input']);
-const props = defineProps([
-  'input',
-  'placeholder',
-  'max',
-  'inputType',
-  'error',
-]);
-const { input, placeholder, max, inputType, error } = toRefs(props);
-let isFocused = ref(false);
-const inputComputed = computed({
-  get: () => input.value,
-  set: (val) => emit('update:input', val),
-});
+  const emit = defineEmits(['update:input']);
+  const props = defineProps([
+    'input',
+    'placeholder',
+    'max',
+    'inputType',
+    'error',
+  ]);
+  const { input, placeholder, max, inputType, error } = toRefs(props);
+  let isFocused = ref(false);
+  const inputComputed = computed({
+    get: () => input.value,
+    set: (val) => emit('update:input', val),
+  });
 </script>

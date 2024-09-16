@@ -3,7 +3,10 @@
     :id="`ProductCard${product.id}`"
     class="h-[100%] bg-white border inline-block rounded hover:shadow-[0_0_10px_3px_rgba(0,0,0,0.15)] cursor-pointer"
   >
-    <NuxtLink :to="`/item/${product.id}`" class="flex flex-col justify-between">
+    <NuxtLink
+      :to="`/item/${product.id}`"
+      class="flex flex-col justify-between"
+    >
       <div class="h-[160px]">
         <NuxtImg
           :src="product.url"
@@ -12,12 +15,15 @@
         />
       </div>
 
-      <div id="ProductDetails" class="p-2">
+      <div
+        id="ProductDetails"
+        class="p-2"
+      >
         <span class="flex items-center justify-start gap-3 px-1 pt-1">
           <span class="text-[#FF6674] font-semibold">${{ priceComputed }}</span>
-          <span class="text-gray-500 text-sm text-light line-through"
-            >${{ oldPriceComputed }}</span
-          >
+          <span class="text-gray-500 text-sm text-light line-through">
+            ${{ oldPriceComputed }}
+          </span>
         </span>
 
         <span
@@ -29,12 +35,14 @@
         <div class="flex items-center gap-1 px-1 relative -top-1">
           <span
             class="bg-[#FD374F] text-white text-[9px] font-semibold px-1.5 rounded-sm"
-            >Welcome Deal</span
           >
+            Welcome Deal
+          </span>
           <span
             class="bg-[#F5F5F5] border text-[#C08562] text-[9px] font-semibold px-1.5 rounded-sm"
-            >Top Selling</span
           >
+            Top Selling
+          </span>
         </div>
 
         <p class="flex items-center px-1 pt-0.5 text-xs text-[#252525]">
@@ -52,9 +60,9 @@
         </p>
 
         <p class="px-1 pb-1">
-          <span class="text-[#009A66] text-xs font-semibold"
-            >Free Shipping</span
-          >
+          <span class="text-[#009A66] text-xs font-semibold">
+            Free Shipping
+          </span>
         </p>
       </div>
     </NuxtLink>
@@ -62,16 +70,16 @@
 </template>
 
 <script setup>
-const img = useImage();
-const props = defineProps(['product']);
-const { product } = toRefs(props);
+  const img = useImage();
+  const props = defineProps(['product']);
+  const { product } = toRefs(props);
 
-const priceComputed = computed(() => {
-  return product.value.price / 100;
-});
+  const priceComputed = computed(() => {
+    return product.value.price / 100;
+  });
 
-const oldPriceComputed = computed(() => {
-  let res = (product.value.price + product.value.price / 20) / 100;
-  return res.toFixed(2);
-});
+  const oldPriceComputed = computed(() => {
+    let res = (product.value.price + product.value.price / 20) / 100;
+    return res.toFixed(2);
+  });
 </script>

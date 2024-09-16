@@ -1,0 +1,9 @@
+node_modules
+.nuxt
+.output
+.prettierignore
+.prettierrc.json
+.gitignore
+.eslintrc.js
+.eslintignore
+.eslintrc.js

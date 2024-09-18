@@ -9,6 +9,7 @@
       class="grid xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-4"
     >
       <div
+        class="w-[100%]"
         v-for="product in products.data"
         :key="product.id"
       >
